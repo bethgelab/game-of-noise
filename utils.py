@@ -14,7 +14,7 @@ def get_IN_C_data_loaders(args):
     data_loaders_names = \
         {'Brightness': 'brightness',
          'Contrast': 'contrast',
-         'Defocus Bur': 'defocus_blur',
+         'Defocus Blur': 'defocus_blur',
          'Elastic Transform': 'elastic_transform',
          'Fog': 'fog',
          'Frost': 'frost',
@@ -42,7 +42,7 @@ def get_IN_C_data_loaders(args):
     return data_loaders
 
 
-def accuracy(output, target, topk=(1,)):
+def get_accuracy(output, target, topk=(1,)):
     """Computes the accuracy over the k top predictions for the specified values of k"""
     with torch.no_grad():
         maxk = max(topk)
@@ -79,7 +79,7 @@ def accuracy_on_imagenet_c(data_loaders, model, args):
                 for data, labels in loader:
                     data, labels = data.cuda(), labels.cuda()
                     logits = model(data)
-                    acc_tmp = accuracy(logits, labels, (1, 5))
+                    acc_tmp = get_accuracy(logits, labels, (1, 5))
                     n_correct += acc_tmp[0]
                     n_correct_sev += acc_tmp[0]
                     n_correct_top5 += acc_tmp[1]
@@ -92,21 +92,21 @@ def accuracy_on_imagenet_c(data_loaders, model, args):
                     break
                         
                 args.IN_C_Results[name][int(severity)+1] = n_correct_sev / n_total_sev
-            all_accuracies.append(n_correct / n_total)
-            all_accuracies_top5.append(n_correct_top5 / n_total)
+            all_accuracies.append(100 * n_correct / n_total)
+            all_accuracies_top5.append(100*n_correct_top5 / n_total)
             if name not in ['Gaussian Noise', 'Shot Noise', 'Impulse Noise']:
-                all_accuracies_wo_noises.append(n_correct_wo_noises / n_total_wo_noises)
-                all_accuracies_wo_noises_top5.append(n_correct_wo_noises_top5 / n_total_wo_noises)   
-            accuracy = n_correct / n_total
-            accuracy_top5 = n_correct_top5 / n_total
+                all_accuracies_wo_noises.append(100 * n_correct_wo_noises / n_total_wo_noises)
+                all_accuracies_wo_noises_top5.append(100*n_correct_wo_noises_top5 / n_total_wo_noises)   
+            accuracy = 100 * n_correct / n_total
+            accuracy_top5 = 100 * n_correct_top5 / n_total
             args.IN_C_Results[name][0] = accuracy.item()
             args.IN_C_Results[name][1] = accuracy_top5.item()
             
             # Logging:
-            print("Top1 accuracy on {}: {0:.2f}".format(name, accuracy.item()))
-            print("Top5 accuracy on {}: {0:.2f}".format(name, accuracy_top5.item()))
-            args.file.write("Top1 accuracy on {}: {0:.2f}, ".format(name, accuracy.item()))
-            args.file.write("Top5 accuracy on {}: {0:.2f}\n".format(name, accuracy_top5.item()))
+            print("Top1 accuracy on {0}: {1:.2f}".format(name, accuracy.item()))
+            print("Top5 accuracy on {0}: {1:.2f}".format(name, accuracy_top5.item()))
+            args.file.write("Top1 accuracy on {0}: {1:.2f}, ".format(name, accuracy.item()))
+            args.file.write("Top5 accuracy on {0}: {1:.2f}".format(name, accuracy_top5.item()))
         print("Top1 accuracy on full ImageNet-C: {0:.2f}, ".format(np.mean(all_accuracies)))    
         print("Top5 accuracy on full ImageNet-C: {0:.2f}".format(np.mean(all_accuracies_top5)))    
         print("Top1 accuracy on ImageNet-C w/o Noises: {0:.2f}, ".format(np.mean(all_accuracies_wo_noises))) 
@@ -116,7 +116,7 @@ def accuracy_on_imagenet_c(data_loaders, model, args):
         args.file.write("Top1 accuracy on ImageNet-C w/o Noises: {0:.2f}, ".format(np.mean(all_accuracies_wo_noises))) 
         args.file.write("Top5 accuracy on ImageNet-C w/o Noises: {0:.2f}\n, ".format(np.mean(all_accuracies_wo_noises_top5)))  
    
-        outfile_name_IN_C_accuracy = args.model_name + '_IN_C_Results_resnet_50.npy'
+        outfile_name_IN_C_accuracy = './Results/' + args.model_name + '_IN_C_Results_resnet_50.npy'
         np.save(outfile_name_IN_C_accuracy, args.IN_C_Results)
         
     return
@@ -136,7 +136,7 @@ def validate(val_loader, model, args):
             loss = criterion(output, target)
 
             # measure accuracy and record loss
-            acc1, acc5 = accuracy(output, target, topk=(1, 5))
+            acc1, acc5 = get_accuracy(output, target, topk=(1, 5))
             break
 
     return acc1, acc5

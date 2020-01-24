@@ -43,7 +43,7 @@ def main():
         
     # evaluate
     print("Start evaluation for model {}".format(args.model_name))
-    outfile_name = args.model_name + '_results.txt'
+    outfile_name = './Results/' + args.model_name + '_results.txt'
     file = open(outfile_name, 'w')
     args.file = file
     
