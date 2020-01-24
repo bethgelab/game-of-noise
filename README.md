@@ -14,4 +14,6 @@ Download and validate our models via:
 python3 main.py --model_name ANT-SIN
 ```
 
+Possible choices: ANT-SIN, ANT, Gauss_mult, Gauss_sigma_0.5, Speckle
+
 The results are saved as txt files and displayed via print() statements directly. The ImageNet-C results are additionally saved as arrays.
