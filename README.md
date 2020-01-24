@@ -4,6 +4,8 @@ This repository contains trained model weights and evaluation code for the paper
 
 Our core message is that a very simple approach -- data augmentation with Gaussian noise -- suffices to surpass almost all much more sophisticated state-of-art methods to increase robustness towards common corruptions. Going one step further, we learn the per-pixel distribution to sample noise from adversarially with a simple generative neural network which we call the Noise Generator. Training the Noise Generator and the classifier jointly further increases robustness.
 
+
+
 ![Example Figure](./Figures/Fig1.png)
 
 ## Evaluate models
