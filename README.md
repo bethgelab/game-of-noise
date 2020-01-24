@@ -2,7 +2,7 @@
 
 Describe project
 
-![Fig1](./Figures/fig1.pdf)
+![Fig1](./Figures/Fig1.png)
 
 ## Evaluate models
 
