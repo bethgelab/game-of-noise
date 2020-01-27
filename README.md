@@ -10,11 +10,13 @@ Our core message is that a very simple approach -- data augmentation with Gaussi
 
 ## Download models
 
-Download the trained model weights by running
+Download the trained model weights by either running
 
 ```
 bash ./Models/download_models.sh
 ```
+
+or by downloading them from the [Releases on GitHub](https://github.com/EvgeniaAR/game-of-noise/releases).
 
 ## Evaluate models
 
