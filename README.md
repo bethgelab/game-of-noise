@@ -20,4 +20,4 @@ Arguments:
  - `--test-batch-size` number of images in the batch (optional, default: 256) 
 
 
-The results are saved as txt files and displayed via print() statements directly. The ImageNet-C results are additionally saved as arrays.
+The results are saved as txt files.
