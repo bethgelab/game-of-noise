@@ -1,0 +1,2 @@
+ImageNet val: Top1 accuracy: 75.83, Top5 accuracy: 92.78
+

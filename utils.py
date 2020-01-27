@@ -1,16 +1,16 @@
 import numpy as np
 import torch
-import torch.nn as nn
 from torchvision import datasets, transforms
 import torchvision.models as models
 import os.path as osp
+from torch.utils import model_zoo
 
 
-def get_IN_C_data_loaders(args):
+def get_in_c_data_loaders(args):
     """Returns data loaders for all ImageNet-C corruptions"""
-    n_worker=30
+
     normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
-                                 std=[0.229, 0.224, 0.225])
+                                     std=[0.229, 0.224, 0.225])
     data_loaders_names = \
         {'Brightness': 'brightness',
          'Contrast': 'contrast',
@@ -27,23 +27,21 @@ def get_IN_C_data_loaders(args):
          'Shot Noise': 'shot_noise',
          'Snow': 'snow',
          'Zoom Blur': 'zoom_blur'}
-    data_loaders = {}    
+    data_loaders = {}
     for name, path in data_loaders_names.items():
         data_loaders[name] = {}
         for severity in range(1, 6):
-            dset = datasets.ImageFolder(osp.join(args.imagenetc_path, path,
-                                    str(severity)), transforms.Compose([
-                                            transforms.CenterCrop(224),
-                                            transforms.ToTensor(),
-                                            normalize,
-                                        ]))
+            dset = datasets.ImageFolder(osp.join(args.imagenetc_path, path, str(severity)),
+                                        transforms.Compose([transforms.CenterCrop(224),
+                                                            transforms.ToTensor(), normalize, ]))
             data_loaders[name][str(severity)] = torch.utils.data.DataLoader(
-                dset, batch_size=args.test_batch_size, shuffle=True, num_workers=n_worker)
+                dset, batch_size=args.test_batch_size, shuffle=True, num_workers=args.workers)
     return data_loaders
 
 
 def get_accuracy(output, target, topk=(1,)):
     """Computes the accuracy over the k top predictions for the specified values of k"""
+
     with torch.no_grad():
         maxk = max(topk)
         batch_size = target.size(0)
@@ -60,99 +58,156 @@ def get_accuracy(output, target, topk=(1,)):
 
 
 def accuracy_on_imagenet_c(data_loaders, model, args):
-    """Computes the accuracy on ImageNet-C"""
+    """Computes model accuracy and mCE on ImageNet-C"""
+
+    print("Performance on ImageNet-C:\n", file=args.file)
     model.eval()
-    args.file.write("\n Performance on ImageNet-C:\n")
+    ce_alexnet = get_ce_alexnet()
+
     with torch.no_grad():
-        
-        all_accuracies = []
-        all_accuracies_wo_noises = []
-        all_accuracies_top5 = []
-        all_accuracies_wo_noises_top5 = []
-                        
+
+        top1_in_c = AverageMeter('Acc_IN_C@1', ':6.2f')
+        top5_in_c = AverageMeter('Acc_IN_C@5', ':6.2f')
+        top1_in_c_wo_noises = AverageMeter('Acc_IN_C_wo_Noises@1', ':6.2f')
+        top5_in_c_wo_noises = AverageMeter('Acc_IN_C_wo_Noises@5', ':6.2f')
+        mce, counter = 0, 0
+
         for name, data_loader in data_loaders.items():
-            n_correct, n_correct_top5, n_total = 0, 0, 0
-            n_correct_wo_noises, n_correct_wo_noises_top5, n_total_wo_noises = 0, 0, 0
-                        
-            for severity, loader in data_loader.items(): 
-                n_correct_sev, n_total_sev = 0, 0
+            top1_tmp = AverageMeter('Acc_tmp@1', ':6.2f')
+            for severity, loader in data_loader.items():
+                top1_sev_tmp = AverageMeter('Acc_sev_tmp@1', ':6.2f')
+                top5_sev_tmp = AverageMeter('Acc_sev_tmp@5', ':6.2f')
+
                 for data, labels in loader:
                     data, labels = data.cuda(), labels.cuda()
                     logits = model(data)
-                    acc_tmp = get_accuracy(logits, labels, (1, 5))
-                    n_correct += acc_tmp[0]
-                    n_correct_sev += acc_tmp[0]
-                    n_correct_top5 += acc_tmp[1]
-                    n_total += float(data.shape[0])
-                    n_total_sev += float(data.shape[0])
+                    acc1, acc5 = get_accuracy(logits, labels, (1, 5))
+
+                    top1_in_c.update(acc1[0], data.size(0))
+                    top5_in_c.update(acc5[0], data.size(0))
+                    top1_sev_tmp.update(acc1[0], data.size(0))
+                    top5_sev_tmp.update(acc5[0], data.size(0))
+                    top1_tmp.update(acc1[0], data.size(0))
+
                     if name not in ['Gaussian Noise', 'Shot Noise', 'Impulse Noise']:
-                        n_correct_wo_noises += acc_tmp[0]
-                        n_correct_wo_noises_top5 += acc_tmp[1]
-                        n_total_wo_noises += float(data.shape[0])
-                    break
-                        
-                args.IN_C_Results[name][int(severity)+1] = n_correct_sev / n_total_sev
-            all_accuracies.append(100 * n_correct / n_total)
-            all_accuracies_top5.append(100*n_correct_top5 / n_total)
-            if name not in ['Gaussian Noise', 'Shot Noise', 'Impulse Noise']:
-                all_accuracies_wo_noises.append(100 * n_correct_wo_noises / n_total_wo_noises)
-                all_accuracies_wo_noises_top5.append(100*n_correct_wo_noises_top5 / n_total_wo_noises)   
-            accuracy = 100 * n_correct / n_total
-            accuracy_top5 = 100 * n_correct_top5 / n_total
-            args.IN_C_Results[name][0] = accuracy.item()
-            args.IN_C_Results[name][1] = accuracy_top5.item()
-            
+                        top1_in_c_wo_noises.update(acc1[0], data.size(0))
+                        top5_in_c_wo_noises.update(acc5[0], data.size(0))
+
+            # get Corruption Error CE:
+            CE = get_mce_from_accuracy(top1_tmp.avg.item(), ce_alexnet[name])
+            mce += CE
+            counter += 1
+
             # Logging:
-            print("Top1 accuracy on {0}: {1:.2f}".format(name, accuracy.item()))
-            print("Top5 accuracy on {0}: {1:.2f}".format(name, accuracy_top5.item()))
-            args.file.write("Top1 accuracy on {0}: {1:.2f}, ".format(name, accuracy.item()))
-            args.file.write("Top5 accuracy on {0}: {1:.2f}".format(name, accuracy_top5.item()))
-        print("Top1 accuracy on full ImageNet-C: {0:.2f}, ".format(np.mean(all_accuracies)))    
-        print("Top5 accuracy on full ImageNet-C: {0:.2f}".format(np.mean(all_accuracies_top5)))    
-        print("Top1 accuracy on ImageNet-C w/o Noises: {0:.2f}, ".format(np.mean(all_accuracies_wo_noises))) 
-        print("Top5 accuracy on ImageNet-C w/o Noises: {0:.2f}, ".format(np.mean(all_accuracies_wo_noises_top5)))     
-        args.file.write("Top1 accuracy on full ImageNet-C: {0:.2f}, ".format(np.mean(all_accuracies)))    
-        args.file.write("Top5 accuracy on full ImageNet-C: {0:.2f}\n".format(np.mean(all_accuracies_top5)))    
-        args.file.write("Top1 accuracy on ImageNet-C w/o Noises: {0:.2f}, ".format(np.mean(all_accuracies_wo_noises))) 
-        args.file.write("Top5 accuracy on ImageNet-C w/o Noises: {0:.2f}\n, ".format(np.mean(all_accuracies_wo_noises_top5)))  
-   
-        outfile_name_IN_C_accuracy = './Results/' + args.model_name + '_IN_C_Results_resnet_50.npy'
-        np.save(outfile_name_IN_C_accuracy, args.IN_C_Results)
-        
+            print("{0}: Top1 accuracy {1:.2f}, Top5 accuracy: {2:.2f}, CE: {3:.2f}\n".format(
+                name, top1_tmp.avg.item(), top1_tmp.avg.item(), 100. * CE), file=args.file)
+
+        mce /= counter
+        print("Full ImageNet-C: Top1 accuracy {0:.2f}, Top5 accuracy: {1:.2f}, mCE: {2:.2f}\n".format(
+            top1_in_c.avg.item(),
+            top5_in_c.avg.item(),
+            mce * 100.), file=args.file)
+        print("ImageNet-C w/o Noises: : Top1 accuracy: Top1 accuracy {0:.2f}, Top5 accuracy: {1:.2f}\n".format(
+            top1_in_c_wo_noises.avg.item(),
+            top5_in_c_wo_noises.avg.item()), file=args.file)
+
     return
-        
-        
-def validate(val_loader, model, args):
+
+
+class AverageMeter(object):
+    """Computes and stores the average and current value"""
+
+    def __init__(self, name, fmt=':f'):
+        self.name = name
+        self.fmt = fmt
+        self.reset()
+
+    def reset(self):
+        self.val = 0
+        self.avg = 0
+        self.sum = 0
+        self.count = 0
+
+    def update(self, val, n=1):
+        self.val = val
+        self.sum += val * n
+        self.count += n
+        self.avg = self.sum / self.count
+
+    def __str__(self):
+        fmtstr = '{name} {val' + self.fmt + '} ({avg' + self.fmt + '})'
+        return fmtstr.format(**self.__dict__)
+
+
+def validate(val_loader, model):
     """Computes accuracy on ImageNet val"""
 
+    top1 = AverageMeter('Acc@1', ':6.2f')
+    top5 = AverageMeter('Acc@5', ':6.2f')
     # switch to evaluate mode
     model.eval()
-    criterion = nn.CrossEntropyLoss().cuda()
     with torch.no_grad():
-        for i, (images, target) in enumerate(val_loader):
+        for images, target in val_loader:
             images, target = images.cuda(), target.cuda()
 
             output = model(images)
-            loss = criterion(output, target)
 
             # measure accuracy and record loss
             acc1, acc5 = get_accuracy(output, target, topk=(1, 5))
-            break
+            top1.update(acc1[0], images.size(0))
+            top5.update(acc5[0], images.size(0))
 
-    return acc1, acc5
+    return top1.avg, top5.avg
 
 
 def load_model(model_name):
     """loads robust model specified by modelname"""
-    
+
     model = models.resnet50(pretrained='True')
-    
-    model_urls = {
-            'ANT-SIN': './Models/ANT_SIN_Model_new.pth',
+   
+    model_paths = {
+        'ANT-SIN': './Models/ANT_SIN_Model.pth',
+        'ANT': './Models/ANT_Model.pth',
+        'Speckle': './Models/Speckle_Model.pth',
+        'Gauss_mult': './Models/Gauss_mult_Model.pth',
+        'Gauss_sigma_0.5': './Models/Gauss_sigma_0.5_Model.pth',
     }
     
-    model_dict = torch.load(model_urls[model_name])
-    model.load_state_dict(model_dict['model_state_dict'])
+    if not model_name == 'clean':
+        checkpoint = torch.load(model_paths[model_name])
+        model.load_state_dict(checkpoint['model_state_dict'])
     model = model.eval().cuda()
-    
+
     return model
+
+
+def get_mce_from_accuracy(accuracy, error_AlexNet):
+    """Computes mean Corruption Error from accuracy"""
+
+    error = 100. - accuracy
+    ce = error / (error_AlexNet * 100.)
+
+    return ce
+
+
+def get_ce_alexnet():
+    """Returns Corruption Error values for AlexNet"""
+
+    ce_alexnet = dict()
+    ce_alexnet['Gaussian Noise'] = 0.886428
+    ce_alexnet['Shot Noise'] = 0.894468
+    ce_alexnet['Impulse Noise'] = 0.922640
+    ce_alexnet['Defocus Blur'] = 0.819880
+    ce_alexnet['Glass Blur'] = 0.826268
+    ce_alexnet['Motion Blur'] = 0.785948
+    ce_alexnet['Zoom Blur'] = 0.798360
+    ce_alexnet['Snow'] = 0.866816
+    ce_alexnet['Frost'] = 0.826572
+    ce_alexnet['Fog'] = 0.819324
+    ce_alexnet['Brightness'] = 0.564592
+    ce_alexnet['Contrast'] = 0.853204
+    ce_alexnet['Elastic Transform'] = 0.646056
+    ce_alexnet['Pixelate'] = 0.717840
+    ce_alexnet['JPEG Compression'] = 0.606500
+
+    return ce_alexnet
