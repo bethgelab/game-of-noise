@@ -8,9 +8,17 @@ Our core message is that a very simple approach -- data augmentation with Gaussi
 
 ![Example Figure](./Figures/Fig1.png)
 
+## Download models
+
+Download the trained model weights by running
+
+```
+bash ./Models/download_models.sh
+```
+
 ## Evaluate models
 
-To validate our models, run  `python3 main.py` or run the provided bash script directly that downloads and evaluates all provided models via `bash run.sh`.
+To validate our models, run `python3 main.py` or run the provided bash script that evaluates all provided models via `bash run.sh`. It is necessary to download the model weights first!
 
 Arguments:
  - `--datadir-clean` the top-level directory of the ImageNet dataset (mandatory)
