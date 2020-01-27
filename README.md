@@ -10,19 +10,14 @@ Our core message is that a very simple approach -- data augmentation with Gaussi
 
 ## Evaluate models
 
-Download and validate our models via:
+To download and validate our models, run  `python3 main.py` or run the provided bash script directly that downloads and evaluates all provided models via `bash run.sh`.
 
-```
-python3 main.py --model_name ANT-SIN
-```
+Arguments:
+ - `--datadir-clean` the top-level directory of the ImageNet dataset (mandatory)
+ - `--imagenetc-path` the top-level directory of the ImageNet-C dataset (mandatory)
+ - `--model_name` name of the model that should be evaluated (optional, default: `clean`, possible choices: `clean`, `ANT-SIN`, `ANT`, `Gauss_mult`, `Gauss_sigma_0.5`, `Speckle`)
+ - `--workers` number of data loading workers (optional, default: 30)
+ - `--test-batch-size` number of images in the batch (optional, default: 256) 
 
-Or run the provided bash script directly that downloads and evaluates all provided models via:
-
-```
-bash run.sh
-```
-
-
-Possible choices: ANT-SIN, ANT, Gauss_mult, Gauss_sigma_0.5, Speckle
 
 The results are saved as txt files and displayed via print() statements directly. The ImageNet-C results are additionally saved as arrays.
