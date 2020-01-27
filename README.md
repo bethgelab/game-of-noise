@@ -10,7 +10,7 @@ Our core message is that a very simple approach -- data augmentation with Gaussi
 
 ## Evaluate models
 
-To download and validate our models, run  `python3 main.py` or run the provided bash script directly that downloads and evaluates all provided models via `bash run.sh`.
+To validate our models, run  `python3 main.py` or run the provided bash script directly that downloads and evaluates all provided models via `bash run.sh`.
 
 Arguments:
  - `--datadir-clean` the top-level directory of the ImageNet dataset (mandatory)
