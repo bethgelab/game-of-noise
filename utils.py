@@ -167,7 +167,7 @@ def validate(val_loader, model):
 def load_model(model_name):
     """loads robust model specified by modelname"""
 
-    model = models.resnet50(pretrained='True')
+    model = models.resnet50(pretrained=True)
    
     model_paths = {
         'ANT-SIN': './Models/ANT_SIN_Model.pth',
