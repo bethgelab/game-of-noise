@@ -16,7 +16,7 @@ Download the trained model weights by either running
 bash ./Models/download_models.sh
 ```
 
-or by downloading them from the [Releases on GitHub](https://github.com/EvgeniaAR/game-of-noise/releases).
+or by downloading them from the [Releases on GitHub](https://github.com/bethgelab/game-of-noise/releases).
 
 ## Results
 
