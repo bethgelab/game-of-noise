@@ -79,7 +79,7 @@ def accuracy_on_imagenet_c(data_loaders, model, args):
                 top5_sev_tmp = AverageMeter('Acc_sev_tmp@5', ':6.2f')
 
                 for data, labels in loader:
-                    data, labels = data.cuda(), labels.cuda()
+                    data, labels = data.to(args.device), labels.to(args.device)
                     logits = model(data)
                     acc1, acc5 = get_accuracy(logits, labels, (1, 5))
 
@@ -152,7 +152,7 @@ def validate(val_loader, model):
     model.eval()
     with torch.no_grad():
         for images, target in val_loader:
-            images, target = images.cuda(), target.cuda()
+            images, target = images.to(model.device), target.to(model.device)
 
             output = model(images)
 
@@ -164,7 +164,7 @@ def validate(val_loader, model):
     return top1.avg, top5.avg
 
 
-def load_model(model_name):
+def load_model(model_name, device):
     """loads robust model specified by modelname"""
 
     model = models.resnet50(pretrained=True)
@@ -180,7 +180,7 @@ def load_model(model_name):
     if not model_name == 'clean':
         checkpoint = torch.load(model_paths[model_name])
         model.load_state_dict(checkpoint['model_state_dict'])
-    model = model.eval().cuda()
+    model = model.eval().to(device)
 
     return model
 

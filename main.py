@@ -22,7 +22,7 @@ parser.add_argument('--device', default='cuda', type=str,
 def main():
     args = parser.parse_args()
 
-    model = load_model(args.model_name)
+    model = load_model(args.model_name, args.device)
 
     valdir = osp.join(args.datadir_clean, 'val')
     normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
