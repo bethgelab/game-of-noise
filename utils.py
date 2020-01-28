@@ -143,7 +143,7 @@ class AverageMeter(object):
         return fmtstr.format(**self.__dict__)
 
 
-def validate(val_loader, model):
+def validate(val_loader, model, device='cuda'):
     """Computes accuracy on ImageNet val"""
 
     top1 = AverageMeter('Acc@1', ':6.2f')
@@ -152,7 +152,7 @@ def validate(val_loader, model):
     model.eval()
     with torch.no_grad():
         for images, target in val_loader:
-            images, target = images.to(model.device), target.to(model.device)
+            images, target = images.to(device), target.to(device)
 
             output = model(images)
 

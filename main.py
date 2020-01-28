@@ -45,7 +45,7 @@ def main():
     file = open(outfile_name, 'w')
     args.file = file
 
-    acc1, acc5 = validate(val_loader, model)
+    acc1, acc5 = validate(val_loader, model, device=args.device)
     print("ImageNet val: Top1 accuracy: {0:.2f}, Top5 accuracy: {1:.2f}\n".format(acc1.item(), acc5.item()), file=file)
 
     accuracy_on_imagenet_c(in_c_data_loaders, model, args)
