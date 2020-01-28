@@ -40,6 +40,12 @@ It is necessary to specify the paths for the ImageNet validation dataset and the
 python3 main.py --model_name Speckle --datadir-clean /path-to-imagenet-val --imagenetc-path /path-to-imagenet-c
 ```
 
+### Evaluate our best performing model trained with Adversarial Noise Training and on Stylized ImageNet
+
+```
+python3 main.py --model_name ANT-SIN --datadir-clean /path-to-imagenet-val --imagenetc-path /path-to-imagenet-c
+```
+
 ## Results
 
 The evaluation results are summarized in the Table below.
