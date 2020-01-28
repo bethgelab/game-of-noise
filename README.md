@@ -18,6 +18,19 @@ bash ./Models/download_models.sh
 
 or by downloading them from the [Releases on GitHub](https://github.com/EvgeniaAR/game-of-noise/releases).
 
+## Results
+
+The evaluation results are summarized in the Table below.
+
+| Model           | ImageNet val top1 accuracy [%] ↗ | ImageNet-c top1 accuracy [%] ↗ |  ImageNet-C mCE ↘ |
+| --------------- |:--------------------------------:|:------------------------------:|:-----------------:|
+| Vanilla         | 76.1                             | 39.2                           | 76.7              |
+| Speckle         | 75.8                             | 46.4                           | 68.3              |
+| Gauss_sigma_0.5 | 75.9                             | 49.4                           | 64.0              |
+| Gauss_mult      | 76.1                             | 49.2                           | 65.0              |
+| ANT             | 76.1                             | 51.1                           | 62.5              |
+| ANT-SIN         | 74.9                             | 52.2                           | 61.2              |
+
 ## Evaluate models
 
 To validate our models, run `python3 main.py`. It is necessary to download the model weights first!
@@ -45,16 +58,3 @@ python3 main.py --model_name Speckle --datadir-clean /path-to-imagenet-val --ima
 ```
 python3 main.py --model_name ANT-SIN --datadir-clean /path-to-imagenet-val --imagenetc-path /path-to-imagenet-c
 ```
-
-## Results
-
-The evaluation results are summarized in the Table below.
-
-| Model           | ImageNet val top1 accuracy [%] ↗ | ImageNet-c top1 accuracy [%] ↗ |  ImageNet-C mCE ↘ |
-| --------------- |:--------------------------------:|:------------------------------:|:-----------------:|
-| Vanilla         | 76.1                             | 39.2                           | 76.7              |
-| Speckle         | 75.8                             | 46.4                           | 68.3              |
-| Gauss_sigma_0.5 | 75.9                             | 49.4                           | 64.0              |
-| Gauss_mult      | 76.1                             | 49.2                           | 65.0              |
-| ANT             | 76.1                             | 51.1                           | 62.5              |
-| ANT-SIN         | 74.9                             | 52.2                           | 61.2              |
