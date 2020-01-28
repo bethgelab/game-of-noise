@@ -4,7 +4,8 @@ from utils import *
 
 parser = argparse.ArgumentParser(description='Evaluation of Models')
 parser.add_argument('--model_name', default='clean', type=str,
-                    help='which model should be evaluated')
+                    help='which model should be evaluated chose from {clean, ANT, ANT-SIN, Speckle, Gauss_mult, '
+                         'Gauss_sigma_0.5}')
 parser.add_argument('--imagenetc-path', metavar='DIR',
                     default='./data/ImageNet-C/imagenet-c/')
 parser.add_argument('--datadir-clean', metavar='DIR',
