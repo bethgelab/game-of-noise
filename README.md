@@ -22,7 +22,7 @@ or by downloading them from the [Releases on GitHub](https://github.com/bethgela
 
 The evaluation results are summarized in the Table below.
 
-| Model           | ImageNet val top1 accuracy [%] ↗ | ImageNet-c top1 accuracy [%] ↗ |  ImageNet-C mCE ↘ |
+| Model           | ImageNet val top1 accuracy [%] ↗ | ImageNet-C top1 accuracy [%] ↗ |  ImageNet-C mCE ↘ |
 | --------------- |:--------------------------------:|:------------------------------:|:-----------------:|
 | Vanilla         | 76.1                             | 39.2                           | 76.7              |
 | Speckle         | 75.8                             | 46.4                           | 68.3              |
