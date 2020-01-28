@@ -4,8 +4,8 @@ from utils import *
 
 parser = argparse.ArgumentParser(description='Evaluation of Models')
 parser.add_argument('--model_name', default='clean', type=str,
-                    help='which model should be evaluated; choose from {clean, ANT, ANT-SIN, Speckle, Gauss_mult, '
-                         'Gauss_sigma_0.5}')
+                    help='which model should be evaluated',
+                    choices='clean, ANT, ANT-SIN, Speckle, Gauss_mult, Gauss_sigma_0.5')
 parser.add_argument('--imagenetc-path', metavar='DIR',
                     default='./data/ImageNet-C/imagenet-c/')
 parser.add_argument('--datadir-clean', metavar='DIR',
@@ -15,6 +15,8 @@ parser.add_argument('-j', '--workers', default=30, type=int, metavar='N',
 parser.add_argument('-tb', '--test-batch-size', default=256, type=int,
                     metavar='N',
                     help='mini-batch size (default: 256)')
+parser.add_argument('--device', default='cuda', type=str,
+                    help='cuda or cpu')
 
 
 def main():
