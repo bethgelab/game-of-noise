@@ -1,36 +1,38 @@
+ImageNet val: Top1 accuracy: 76.13, Top5 accuracy: 92.86
+
 Performance on ImageNet-C:
 
-Brightness: Top1 accuracy 67.66, Top5 accuracy: 67.66, CE: 57.29
+Brightness: Top1 accuracy 68.02, Top5 accuracy: 68.02, CE: 56.64
 
-Contrast: Top1 accuracy 38.12, Top5 accuracy: 38.12, CE: 72.52
+Contrast: Top1 accuracy 39.06, Top5 accuracy: 39.06, CE: 71.43
 
-Defocus Blur: Top1 accuracy 41.17, Top5 accuracy: 41.17, CE: 71.75
+Defocus Blur: Top1 accuracy 38.75, Top5 accuracy: 38.75, CE: 74.71
 
-Elastic Transform: Top1 accuracy 44.06, Top5 accuracy: 44.06, CE: 86.58
+Elastic Transform: Top1 accuracy 45.25, Top5 accuracy: 45.25, CE: 84.75
 
-Fog: Top1 accuracy 44.14, Top5 accuracy: 44.14, CE: 68.18
+Fog: Top1 accuracy 45.83, Top5 accuracy: 45.83, CE: 66.11
 
-Frost: Top1 accuracy 39.06, Top5 accuracy: 39.06, CE: 73.72
+Frost: Top1 accuracy 38.14, Top5 accuracy: 38.14, CE: 74.84
 
-Gaussian Noise: Top1 accuracy 27.42, Top5 accuracy: 27.42, CE: 81.88
+Gaussian Noise: Top1 accuracy 29.29, Top5 accuracy: 29.29, CE: 79.77
 
-Glass Blur: Top1 accuracy 24.38, Top5 accuracy: 24.38, CE: 91.53
+Glass Blur: Top1 accuracy 26.79, Top5 accuracy: 26.79, CE: 88.61
 
-Impulse Noise: Top1 accuracy 23.05, Top5 accuracy: 23.05, CE: 83.41
+Impulse Noise: Top1 accuracy 23.81, Top5 accuracy: 23.81, CE: 82.58
 
-JPEG Compression: Top1 accuracy 54.45, Top5 accuracy: 54.45, CE: 75.10
+JPEG Compression: Top1 accuracy 53.41, Top5 accuracy: 53.41, CE: 76.82
 
-Motion Blur: Top1 accuracy 39.77, Top5 accuracy: 39.77, CE: 76.64
+Motion Blur: Top1 accuracy 38.67, Top5 accuracy: 38.67, CE: 78.03
 
-Pixelate: Top1 accuracy 45.70, Top5 accuracy: 45.70, CE: 75.64
+Pixelate: Top1 accuracy 44.79, Top5 accuracy: 44.79, CE: 76.92
 
-Shot Noise: Top1 accuracy 27.89, Top5 accuracy: 27.89, CE: 80.62
+Shot Noise: Top1 accuracy 27.03, Top5 accuracy: 27.03, CE: 81.58
 
-Snow: Top1 accuracy 33.44, Top5 accuracy: 33.44, CE: 76.79
+Snow: Top1 accuracy 32.53, Top5 accuracy: 32.53, CE: 77.83
 
-Zoom Blur: Top1 accuracy 38.05, Top5 accuracy: 38.05, CE: 77.60
+Zoom Blur: Top1 accuracy 36.24, Top5 accuracy: 36.24, CE: 79.86
 
-Full ImageNet-C: Top1 accuracy 39.22, Top5 accuracy: 59.11, mCE: 76.62
+Full ImageNet-C: Top1 accuracy 39.17, Top5 accuracy: 59.33, mCE: 76.70
 
-ImageNet-C w/o Noises: : Top1 accuracy: Top1 accuracy 42.50, Top5 accuracy: 63.04
+ImageNet-C w/o Noises: : Top1 accuracy: Top1 accuracy 42.29, Top5 accuracy: 63.20
 
