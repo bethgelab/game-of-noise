@@ -121,10 +121,11 @@ class AverageMeter(object):
         self.name = name
         self.fmt = fmt
         self.reset()
-        self.val = None
-        self.avg = None
-        self.sum = None
-        self.count = None
+        self.val = 0
+        self.avg = 0
+        self.sum = 0
+        self.count = 0
+        self.reset()
 
     def reset(self):
         self.val = 0
