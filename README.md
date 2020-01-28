@@ -56,5 +56,5 @@ python3 main.py --model_name Speckle --datadir-clean /path-to-imagenet-val --ima
 ### Evaluate our best performing model trained with Adversarial Noise Training and on Stylized ImageNet
 
 ```
-python3 main.py --model_name ANT-SIN --datadir-clean /path-to-imagenet-val --imagenetc-path /path-to-imagenet-c
+python3 main.py --model_name ANT-SIN --datadir-clean /path-to-imagenet --imagenetc-path /path-to-imagenet-c
 ```
