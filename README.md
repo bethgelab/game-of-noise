@@ -20,7 +20,7 @@ or by downloading them from the [Releases on GitHub](https://github.com/EvgeniaA
 
 ## Evaluate models
 
-To validate our models, run `python3 main.py` or run the provided bash script that evaluates all provided models via `bash run.sh`. It is necessary to download the model weights first!
+To validate our models, run `python3 main.py`. It is necessary to download the model weights first!
 
 Arguments:
  - `--datadir-clean` the top-level directory of the ImageNet dataset (mandatory)
@@ -29,8 +29,16 @@ Arguments:
  - `--workers` number of data loading workers (optional, default: 30)
  - `--test-batch-size` number of images in the batch (optional, default: 256) 
 
-
 The results are saved as txt files.
+
+## Example Usage
+
+### Evaluate our model trained with Speckle noise data augmentation
+
+It is necessary to specify the paths for the ImageNet validation dataset and the ImageNet-C dataset. Then you can run:
+```
+python3 main.py --model_name Speckle --datadir-clean /path-to-imagenet-val --imagenetc-path /path-to-imagenet-c
+```
 
 ## Results
 
