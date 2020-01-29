@@ -40,7 +40,8 @@ Arguments:
  - `--imagenetc-path` the top-level directory of the ImageNet-C dataset (mandatory)
  - `--model_name` name of the model that should be evaluated (optional, default: `clean`, possible choices: `clean`, `ANT-SIN`, `ANT`, `Gauss_mult`, `Gauss_sigma_0.5`, `Speckle`)
  - `--workers` number of data loading workers (optional, default: 30)
- - `--test-batch-size` number of images in the batch (optional, default: 256) 
+ - `--test-batch-size` number of images in the batch (optional, default: 256)
+ - `--device` device for evaluation (optional, default: 'cuda')
 
 The results are saved as txt files.
 
