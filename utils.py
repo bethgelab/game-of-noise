@@ -74,6 +74,7 @@ def accuracy_on_imagenet_c(data_loaders, model, args):
 
         for name, data_loader in data_loaders.items():
             top1_tmp = AverageMeter('Acc_tmp@1', ':6.2f')
+            top5_tmp = AverageMeter('Acc_tmp@5', ':6.2f')
             for severity, loader in data_loader.items():
                 top1_sev_tmp = AverageMeter('Acc_sev_tmp@1', ':6.2f')
                 top5_sev_tmp = AverageMeter('Acc_sev_tmp@5', ':6.2f')
@@ -88,7 +89,8 @@ def accuracy_on_imagenet_c(data_loaders, model, args):
                     top1_sev_tmp.update(acc1[0], data.size(0))
                     top5_sev_tmp.update(acc5[0], data.size(0))
                     top1_tmp.update(acc1[0], data.size(0))
-
+                    top5_tmp.update(acc5[0], data.size(0))
+                    
                     if name not in ['Gaussian Noise', 'Shot Noise', 'Impulse Noise']:
                         top1_in_c_wo_noises.update(acc1[0], data.size(0))
                         top5_in_c_wo_noises.update(acc5[0], data.size(0))
