@@ -100,7 +100,7 @@ def accuracy_on_imagenet_c(data_loaders, model, args):
 
             # Logging:
             print("{0}: Top1 accuracy {1:.2f}, Top5 accuracy: {2:.2f}, CE: {3:.2f}\n".format(
-                name, top1_tmp.avg.item(), top1_tmp.avg.item(), 100. * CE), file=args.file)
+                name, top1_tmp.avg.item(), top5_tmp.avg.item(), 100. * CE), file=args.file)
 
         mce /= counter
         print("Full ImageNet-C: Top1 accuracy {0:.2f}, Top5 accuracy: {1:.2f}, mCE: {2:.2f}\n".format(
