@@ -60,7 +60,7 @@ python3 main.py --model_name Speckle --datadir-clean /path-to-imagenet-val --ima
 python3 main.py --model_name ANT-SIN --datadir-clean /path-to-imagenet --imagenetc-path /path-to-imagenet-c
 ```
 
-### Examples of adversarial noise
+## Examples of adversarial noise
 
 Examples of adversarial noise found by the noise generator during adversarial noise training (ANT) are found below
 
