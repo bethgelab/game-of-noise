@@ -62,6 +62,6 @@ python3 main.py --model_name ANT-SIN --datadir-clean /path-to-imagenet --imagene
 
 ## Examples of adversarial noise
 
-Examples of adversarial noise found by the noise generator during adversarial noise training (ANT) are found below
+Examples of adversarial noise found by the noise generator during adversarial noise training (ANT) are displayed below.
 
 ![Example Figure](./Figures/Examples_of_adversarial_noise.png)
