@@ -29,7 +29,7 @@ The evaluation results are summarized in the Table below.
 | Gauss_sigma_0.5 | 75.9                             | 49.4                           | 64.5              |
 | Gauss_mult      | 76.1                             | 49.2                           | 65.0              |
 | ANT             | 76.1                             | 51.1                           | 62.5              |
-| ANT-SIN         | 74.9                             | 52.2                           | 61.2              |
+| ANT+SIN         | 74.9                             | 52.2                           | 61.2              |
 
 ## Evaluate models
 
@@ -51,13 +51,31 @@ The results are saved as txt files.
 
 It is necessary to specify the paths for the ImageNet validation dataset and the ImageNet-C dataset. Then you can run:
 ```
-python3 main.py --model_name Speckle --datadir-clean /path-to-imagenet-val --imagenetc-path /path-to-imagenet-c
+python3 main.py -e True --model_name Speckle --datadir-clean /path-to-imagenet-val --imagenetc-path /path-to-imagenet-c
 ```
 
 ### Evaluate our best performing model trained with Adversarial Noise Training and on Stylized ImageNet
 
 ```
-python3 main.py --model_name ANT-SIN --datadir-clean /path-to-imagenet --imagenetc-path /path-to-imagenet-c
+python3 main.py -e True --model_name ANT+SIN --datadir-clean /path-to-imagenet --imagenetc-path /path-to-imagenet-c
+```
+
+### Train a robust model with ANT
+
+```
+python3 main.py  --mode ANT --datadir-clean /path-to-imagenet --imagenetc-path /path-to-imagenet-c
+```
+
+### Train a robust model with ANT+SIN
+
+```
+python3 main.py  --mode ANT+SIN --datadir-clean /path-to-imagenet --imagenetc-path /path-to-imagenet-c --datadir-sin /path-to-stylized-imagenet
+```
+
+### Train a robust model with Gaussian noise with one specific sigma
+
+```
+python3 main.py  --mode Gauss_single --std_gauss 0.5 --datadir-clean /path-to-imagenet --imagenetc-path /path-to-imagenet-c
 ```
 
 ## Examples of adversarial noise
