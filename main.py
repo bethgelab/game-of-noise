@@ -177,7 +177,7 @@ def main():
         scheduler_cl.step()
         
         # eval
-        if epoch % 10 == 0 and epoch > 0:
+        if True:
             print('Evaluate at epoch: {}\n'.format(epoch), file=file)
             # To make the training faster, we test on a subset of the test set
 
