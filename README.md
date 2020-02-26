@@ -30,6 +30,8 @@ The evaluation results are summarized in the Table below.
 | Gauss_mult      | 76.1                             | 49.2                           | 65.0              |
 | ANT             | 76.1                             | 51.1                           | 62.5              |
 | ANT+SIN         | 74.9                             | 52.2                           | 61.2              |
+| ANT3x3          | 76.1                             | 50.4                           | 63.4              |
+| ANT+SIN         | 74.1                             | 52.6                           | 60.7              |
 
 ## Evaluate models
 
@@ -82,6 +84,6 @@ python3 main.py  --mode Gauss_single --std_gauss 0.5 --datadir-clean /path-to-im
 
 Examples of adversarial noise found by the noise generator during adversarial noise training are displayed below.
 
-A: Examples of learned probability densities over the grayscale version of the noise during ANT1x1 where each density corresponds to one local minimum; B: Example images with sampled uncorrelated adversarial noise; C:Example patches of locally correlated noise with a size of 28x28 pixels learned during ANT3x3; D: Example images with sampled correlated adversarial noise.
+A: Examples of learned probability densities over the grayscale version of the noise during ANT1x1 where each density corresponds to one local minimum; B: Example images with sampled uncorrelated adversarial noise; C: Example patches of locally correlated noise with a size of 28x28 pixels learned during ANT3x3; D: Example images with sampled correlated adversarial noise.
 
 ![Example Figure](./Figures/Examples_of_Adversarial_Noise.png)
