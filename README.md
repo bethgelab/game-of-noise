@@ -68,6 +68,12 @@ python3 main.py -e True --model_name ANT+SIN --datadir-clean /path-to-imagenet -
 python3 main.py  --mode ANT --datadir-clean /path-to-imagenet --imagenetc-path /path-to-imagenet-c
 ```
 
+### Train a robust model with ANT3x3
+
+```
+python3 main.py  --mode ANT --ng_type 3x3 --datadir-clean /path-to-imagenet --imagenetc-path /path-to-imagenet-c
+```
+
 ### Train a robust model with ANT+SIN
 
 ```
