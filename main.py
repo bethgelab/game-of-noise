@@ -25,7 +25,7 @@ parser.add_argument('--mode', type=str, default='ANT',
 parser.add_argument('--model_name', default='clean', type=str,
                     help='which robust trained model should be '
                          'evaluated with the provided model weights (default: clean)',
-                    choices=['clean', 'ANT', 'ANT+SIN', 'Speckle', 'Gauss_mult', 'Gauss_sigma_0.5'])
+                    choices=['clean', 'ANT', 'ANT+SIN', 'Speckle', 'Gauss_mult', 'Gauss_sigma_0.5', 'ANT3x3', 'ANT3x3+SIN'])
 parser.add_argument('--device', default='cuda', type=str,
                     help='cuda or cpu (default: cuda)')
 parser.add_argument('--epochs', default=120, type=int, metavar='N',

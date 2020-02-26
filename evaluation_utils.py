@@ -134,6 +134,8 @@ def load_robust_model(model_name, device):
         'Speckle': './Models/Speckle_Model.pth',
         'Gauss_mult': './Models/Gauss_mult_Model.pth',
         'Gauss_sigma_0.5': './Models/Gauss_sigma_0.5_Model.pth',
+        'ANT3x3': './Models/ANT3x3_Model.pth',
+        'ANT3x3+SIN' './Models/ANT3x3_SIN_Model.pth':
     }
     
     if not model_name == 'clean':
