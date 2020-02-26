@@ -56,10 +56,10 @@ It is necessary to specify the paths for the ImageNet validation dataset and the
 python3 main.py -e True --model_name Speckle --datadir-clean /path-to-imagenet-val --imagenetc-path /path-to-imagenet-c
 ```
 
-### Evaluate our best performing model trained with Adversarial Noise Training and on Stylized ImageNet
+### Evaluate our best performing model trained with Adversarial Noise Training and on Stylized ImageNet ANT3x3+SIN
 
 ```
-python3 main.py -e True --model_name ANT+SIN --datadir-clean /path-to-imagenet --imagenetc-path /path-to-imagenet-c
+python3 main.py -e True --model_name ANT3x3+SIN --ng_type 3x3 --datadir-clean /path-to-imagenet --imagenetc-path /path-to-imagenet-c
 ```
 
 ### Train a robust model with ANT
