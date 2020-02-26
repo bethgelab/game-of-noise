@@ -31,7 +31,7 @@ The evaluation results are summarized in the Table below.
 | ANT             | 76.1                             | 51.1                           | 62.5              |
 | ANT+SIN         | 74.9                             | 52.2                           | 61.2              |
 | ANT3x3          | 76.1                             | 50.4                           | 63.4              |
-| ANT+SIN         | 74.1                             | 52.6                           | 60.7              |
+| ANT3x3+SIN      | 74.1                             | 52.6                           | 60.7              |
 
 ## Evaluate models
 
