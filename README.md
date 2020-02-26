@@ -80,6 +80,8 @@ python3 main.py  --mode Gauss_single --std_gauss 0.5 --datadir-clean /path-to-im
 
 ## Examples of adversarial noise
 
-Examples of adversarial noise found by the noise generator during adversarial noise training (ANT) are displayed below.
+Examples of adversarial noise found by the noise generator during adversarial noise training are displayed below.
 
-![Example Figure](./Figures/Examples_of_adversarial_noise.png)
+A: Examples of learned probability densities over the grayscale version of the noise during ANT1x1 where each density corresponds to one local minimum; B: Example images with sampled uncorrelated adversarial noise; C:Example patches of locally correlated noise with a size of 28x28 pixels learned during ANT3x3; D: Example images with sampled correlated adversarial noise.
+
+![Example Figure](./Figures/Examples_of_Adversarial_Noise.png)
